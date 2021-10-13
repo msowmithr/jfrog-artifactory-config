@@ -1,0 +1,16 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: jfrog
+  namespace: jfrog-dev
+spec:
+  type: ClusterIP
+  selector:
+    app: jfrog
+  ports:
+    - name: port-8081
+      port: 8081
+      targetPort: 8081
+    - name: port-8082
+      port: 8082
+      targetPort: 8082

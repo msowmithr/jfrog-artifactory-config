@@ -1,0 +1,38 @@
+copy the all files into workspace. (in same folder structure)
+
+
+
+Create StorageClass
+kubectl apply -f storageclass/sc.yaml
+
+
+
+Create PVC
+kubectl apply -f pvc.yaml
+
+
+
+Create deployment and service
+kubectl apply -f deployment.yaml
+kubectl apply -f service.yaml
+
+Create Ingress
+kubectl apply -f ingress.yaml
+
+Create Ingress Controller
+kubectl apply -f https://raw.githubusercontent.com/kubernetes/ingress-nginx/controller-v1.0.3/deploy/static/provider/cloud/deploy.yaml
+
+
+Verify deployment and service
+kubectl get po
+kubectl get svc -n ingress-nginx (Verify Ingress Controller)
+kubectl get ingress -n namespace (Verify host and IP).
+
+
+
+
+
+
+
+Also need to map the IP with domain in /etc/hosts (or DNS server)
+Need to add insecure-registries in /etc/docker/daemon.json and restart the server (sudo service docker restart)

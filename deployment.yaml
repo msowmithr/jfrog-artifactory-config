@@ -1,0 +1,37 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: jfrog
+  namespace: jfrog-dev
+  labels:
+    app: jfrog
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: jfrog
+  template:
+    metadata:
+      labels:
+        app: jfrog
+    spec:
+      containers:
+      - name: jfrog
+        image: releases-docker.jfrog.io/jfrog/artifactory-pro:latest
+        ports:
+          - containerPort: 8081
+          - containerPort: 8082
+        volumeMounts:
+          - mountPath: /var/opt/jfrog/artifactory
+            name: jfrog
+      initContainers:
+      - name: jfrog-init
+        image: busybox:latest
+        command: ["sh","-c","mkdir -p /var/opt/jfrog/artifactory && chmod 777 /var/opt/jfrog/artifactory"]
+        volumeMounts:
+          - name: jfrog
+            mountPath: /var/opt/jfrog/artifactory
+      volumes:
+      - name: jfrog
+        persistentVolumeClaim:
+          claimName: jfrog
